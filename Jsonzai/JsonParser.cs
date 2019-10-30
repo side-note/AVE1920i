@@ -9,48 +9,6 @@ using System.Threading.Tasks;
 
 namespace Jsonzai
 {
-    internal interface ISetter
-    {
-        Type Klass { get; set; }
-        void SetValue(object target, object value);
-    }
-
-    internal class PropertySetterConvert : ISetter
-    {
-        private PropertyInfo p;
-
-        public PropertySetterConvert(PropertyInfo prop, Type klass)
-        {
-            p = prop;
-            Klass = klass;
-            if (Klass.IsArray) Klass = Klass.GetElementType();
-        }
-
-        public Type Klass { get; set; }
-
-        public void SetValue(object target, object value)
-        {
-            value = Klass.GetMethod("Parse", new Type[] { typeof(string) }).Invoke(null, new object[] { value });
-            p.SetValue(target, value);
-        }
-    }
-    internal class PropertySetter : ISetter
-    {
-        PropertyInfo p;
-
-        public Type Klass { get; set; }
-
-        public PropertySetter(PropertyInfo p) { 
-            this.p = p;
-            Klass = p.PropertyType;
-            if (Klass.IsArray) Klass = Klass.GetElementType();
-        }
-        public void SetValue(object target, object value)
-        {
-            p.SetValue(target, value);
-        }
-
-    }
 	public class JsonParser
 	{
 		static Dictionary<Type,Dictionary<string,ISetter>> properties = new Dictionary<Type,Dictionary<string,ISetter>>();

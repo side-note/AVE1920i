@@ -7,7 +7,6 @@ C:\Users\ASUS\Desktop\jsonzai-master\JsonzaiTest\bin\Debug\Jsonzai.pdb
 C:\Users\ASUS\Desktop\jsonzai-master\JsonzaiTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
 C:\Users\ASUS\Desktop\jsonzai-master\JsonzaiTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
 C:\Users\ASUS\Desktop\jsonzai-master\JsonzaiTest\obj\Debug\JsonzaiTest.csprojAssemblyReference.cache
-C:\Users\ASUS\Desktop\jsonzai-master\JsonzaiTest\obj\Debug\JsonzaiTest.csproj.CoreCompileInputs.cache
 C:\Users\ASUS\Desktop\jsonzai-master\JsonzaiTest\obj\Debug\JsonzaiTest.csproj.CopyComplete
 C:\Users\ASUS\Desktop\jsonzai-master\JsonzaiTest\obj\Debug\JsonzaiTest.dll
 C:\Users\ASUS\Desktop\jsonzai-master\JsonzaiTest\obj\Debug\JsonzaiTest.pdb
@@ -85,3 +84,5 @@ C:\Users\ASUS\Desktop\AVE\jsonzai-master\jsonzai-master\JsonzaiTest\obj\Debug\Js
 C:\Users\ASUS\Desktop\AVE\jsonzai-master\jsonzai-master\JsonzaiTest\obj\Debug\JsonzaiTest.csproj.CopyComplete
 C:\Users\ASUS\Desktop\AVE\jsonzai-master\jsonzai-master\JsonzaiTest\obj\Debug\JsonzaiTest.dll
 C:\Users\ASUS\Desktop\AVE\jsonzai-master\jsonzai-master\JsonzaiTest\obj\Debug\JsonzaiTest.pdb
+C:\Users\ASUS\Desktop\jsonzai-master\JsonzaiTest\bin\Debug\Newtonsoft.Json.dll
+C:\Users\ASUS\Desktop\jsonzai-master\JsonzaiTest\bin\Debug\Newtonsoft.Json.xml
