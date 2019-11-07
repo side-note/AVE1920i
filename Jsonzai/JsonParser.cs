@@ -2,14 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Jsonzai
 {
-	public class JsonParser
+    public class JsonParser
 	{
 		static Dictionary<Type,Dictionary<string,ISetter>> properties = new Dictionary<Type,Dictionary<string,ISetter>>();
 
@@ -79,10 +76,9 @@ namespace Jsonzai
             Type klass = target.GetType();
             if (!properties.ContainsKey(klass)) Cache(klass); 
             while (tokens.Current != JsonTokens.OBJECT_END)
-            {
-                
+            {                
                 string propName = tokens.PopWordFinishedWith(JsonTokens.COLON).Replace("\"","");
-                ISetter s = properties[klass][propName];     
+                ISetter s = properties[klass][propName];
                 s.SetValue(target, Parse(tokens, s.Klass));
                      
                 tokens.Trim();

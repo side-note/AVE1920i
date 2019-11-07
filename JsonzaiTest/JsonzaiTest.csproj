@@ -54,6 +54,7 @@
     <Compile Include="Model\Account.cs" />
     <Compile Include="Model\Classroom.cs" />
     <Compile Include="Model\Date.cs" />
+    <Compile Include="Model\DummySetterStudentNr.cs" />
     <Compile Include="Model\JsonToDateTime.cs" />
     <Compile Include="Model\JsonToGuid.cs" />
     <Compile Include="Model\JsonToUri.cs" />

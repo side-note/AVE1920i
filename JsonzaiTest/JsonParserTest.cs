@@ -10,11 +10,12 @@ namespace Jsonzai.Test
     [TestClass]
     public class JsonParserTest
     {
+
         [TestMethod]
         public void TestParsingStudent()
         {
             string src = "{Name: \"Ze Manel\", Nr: 6512, Group: 11, github_id: \"omaior\"}";
-            Student std = (Student) JsonParser.Parse(src, typeof(Student));
+            Student std = (Student) JsonParsemit.Parse(src, typeof(Student));
             Assert.AreEqual("Ze Manel", std.Name);
             Assert.AreEqual(6512, std.Nr);
             Assert.AreEqual(11, std.Group);
@@ -24,7 +25,7 @@ namespace Jsonzai.Test
         public void TestSiblings()
         {
             string src = "{Name: \"Ze Manel\", Sibling: { Name: \"Maria Papoila\", Sibling: { Name: \"Kata Badala\"}}}";
-            Person p = (Person)JsonParser.Parse(src, typeof(Person));
+            Person p = (Person)JsonParsemit.Parse(src, typeof(Person));
             Assert.AreEqual("Ze Manel", p.Name);
             Assert.AreEqual("Maria Papoila", p.Sibling.Name);
             Assert.AreEqual("Kata Badala", p.Sibling.Sibling.Name);
@@ -34,7 +35,7 @@ namespace Jsonzai.Test
         public void TestParsingPersonWithBirth()
         {
             string src = "{Name: \"Ze Manel\", Birth: {Year: 1999, Month: 12, Day: 31}}";
-            Person p = (Person)JsonParser.Parse(src, typeof(Person));
+            Person p = (Person)JsonParsemit.Parse(src, typeof(Person));
             Assert.AreEqual("Ze Manel", p.Name);
             Assert.AreEqual(1999, p.Birth.Year);
             Assert.AreEqual(12, p.Birth.Month);
@@ -45,7 +46,7 @@ namespace Jsonzai.Test
         public void TestParsingPersonArray()
         {
             string src = "[{Name: \"Ze Manel\"}, {Name: \"Candida Raimunda\"}, {Name: \"Kata Mandala\"}]";
-            Person [] ps = (Person[]) JsonParser.Parse(src, typeof(Person));
+            Person [] ps = (Person[])JsonParsemit.Parse(src, typeof(Person));
             Assert.AreEqual(3, ps.Length);
             Assert.AreEqual("Ze Manel", ps[0].Name);
             Assert.AreEqual("Candida Raimunda", ps[1].Name);
@@ -56,14 +57,14 @@ namespace Jsonzai.Test
         public void TestBadJsonObjectWithUnclosedBrackets()
         {
             string src = "{Name: \"Ze Manel\", Sibling: { Name: \"Maria Papoila\", Sibling: { Name: \"Kata Badala\"}";
-            Person p = (Person)JsonParser.Parse(src, typeof(Person));
+            Person p = (Person)JsonParsemit.Parse(src, typeof(Person));
         }
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestBadJsonObjectWithWrongCloseToken()
         {
             string src = "{Name: \"Ze Manel\", Sibling: { Name: \"Maria Papoila\"]]";
-            Person p = (Person)JsonParser.Parse(src, typeof(Person));
+            Person p = (Person)JsonParsemit.Parse(src, typeof(Person));
         }
         [TestMethod]
         public void TestParsingStudentArray()
@@ -87,7 +88,7 @@ namespace Jsonzai.Test
             Student[] Classroom = { s1, s2, s3 };
             string json = JsonConvert.SerializeObject(Classroom);
             json = json.Replace("GithubId", "github_id");
-            Student[] classroom = (Student[])JsonParser.Parse(json, typeof(Student));
+            Student[] classroom = (Student[])JsonParsemit.Parse(json, typeof(Student));
             for (int i = 0; i < Classroom.Length; i++)
             {
                 Assert.AreEqual(Classroom[i].Name, classroom[i].Name);
@@ -119,7 +120,7 @@ namespace Jsonzai.Test
             cls.Student = new Student[] { s1, s2, s3 };
             string json = JsonConvert.SerializeObject(cls);
             json = json.Replace("GithubId", "github_id");
-            Classroom classroom = (Classroom)JsonParser.Parse(json, typeof(Classroom));
+            Classroom classroom = (Classroom)JsonParsemit.Parse(json, typeof(Classroom));
             Assert.AreEqual(cls.Class, classroom.Class);
             for (int i = 0; i < cls.Student.Length; ++i)
             {
@@ -136,7 +137,7 @@ namespace Jsonzai.Test
             acc.Balance = 234.32;
             acc.Transactions = new Double[] { -100.00, 32.00, -5.00 };           
             string json = JsonConvert.SerializeObject(acc);
-            Account account = (Account)JsonParser.Parse(json, typeof(Account));
+            Account account = (Account)JsonParsemit.Parse(json, typeof(Account));
             Assert.AreEqual(acc.Balance, account.Balance);
             for(int i = 0; i < acc.Transactions.Length; ++i)
             {
@@ -147,7 +148,7 @@ namespace Jsonzai.Test
         public void TestJsonProperty()
         {
             string src = "{Name: \"Ze Manel\", Nr: 6512, Group: 11, github_id: \"omaior\"}";
-            Student std = (Student)JsonParser.Parse(src, typeof(Student));
+            Student std = (Student)JsonParsemit.Parse(src, typeof(Student));
             Assert.AreEqual("Ze Manel", std.Name);
             Assert.AreEqual(6512, std.Nr);
             Assert.AreEqual(11, std.Group);
@@ -160,7 +161,7 @@ namespace Jsonzai.Test
             website.Uri = new Uri("https://www.google.com/");
             string json = JsonConvert.SerializeObject(website);
             json = json.Replace("GithubId", "github_id");
-            Website web = (Website)JsonParser.Parse(json, typeof(Website));
+            Website web = (Website)JsonParsemit.Parse(json, typeof(Website));
             Assert.AreEqual(website.Uri, web.Uri);
 
         }
@@ -171,7 +172,7 @@ namespace Jsonzai.Test
             cls.Id = new Guid("F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4");
             string json = JsonConvert.SerializeObject(cls);
             json = json.Replace("GithubId", "github_id");
-            Classroom classroom = (Classroom)JsonParser.Parse(json, typeof(Classroom));
+            Classroom classroom = (Classroom)JsonParsemit.Parse(json, typeof(Classroom));
             Assert.AreEqual(cls.Id, classroom.Id);
         }
         [TestMethod]
@@ -186,7 +187,7 @@ namespace Jsonzai.Test
             prj.DueDate = new DateTime(2019, 11, 14, 23, 59, 00);
             string json = JsonConvert.SerializeObject(prj);
             json = json.Replace("Student", "student_isel").Replace("GithubId","github_id");
-            Project project = (Project)JsonParser.Parse(json, typeof(Project));
+            Project project = (Project)JsonParsemit.Parse(json, typeof(Project));
             Assert.AreEqual(prj.Student.Name, project.Student.Name);
             Assert.AreEqual(prj.Student.Nr, project.Student.Nr);
             Assert.AreEqual(prj.Student.Group, project.Student.Group);
