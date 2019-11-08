@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,13 +13,13 @@ namespace Jsonzai.Test.Model
         void SetValue(object target, object value);
     }
 
-    class DummySetterStudentName : ISetter
+    class DummySetterStudentTV : ISetter
     {
-        public Type Klass { get => typeof(string); }
+        public Type Klass { get => typeof(int); }
 
         public void SetValue(object target, object value)
         {
-            ((Student)target).Name = (String)value;
+            ((Student)target).Nr = (int)value;
         }
     }
     public class Student : Person

@@ -91,8 +91,10 @@ namespace Jsonzai
             methodIL.Emit(OpCodes.Ldarg_2); // ldarg.2
             if (p.PropertyType.IsValueType)
                 methodIL.Emit(OpCodes.Unbox_Any, p.PropertyType);//unbox.any  [mscorlib]System.Int32
-            //else
-            //    methodIL.Emit(OpCodes.Call, klass.GetMethod("Parse"));
+            else
+            {
+               methodIL.Emit(OpCodes.Castclass, p.PropertyType);
+            }
             //call valuetype[mscorlib]System.Guid Jsonzai.Test.Model.JsonToGuid::Parse(string)
             methodIL.Emit(OpCodes.Callvirt, p.GetSetMethod());//callvirt instance void Jsonzai.Test.Model.Person::set_Name(string)
             methodIL.Emit(OpCodes.Ret);// ret
