@@ -90,13 +90,21 @@ namespace Jsonzai
             methodIL.Emit(OpCodes.Castclass, klass); // castclass  Student
             methodIL.Emit(OpCodes.Ldarg_2); // ldarg.2
             if (p.PropertyType.IsValueType)
-                methodIL.Emit(OpCodes.Unbox_Any, p.PropertyType);//unbox.any  [mscorlib]System.Int32
+            {
+                methodIL.Emit(OpCodes.Unbox_Any, p.PropertyType); //unbox.any  [mscorlib]System.Int32
+                if (p.PropertyType.IsPrimitive)
+                    methodIL.Emit(OpCodes.Callvirt, p.GetSetMethod());
+                else
+                    methodIL.Emit(OpCodes.Call, p.GetSetMethod());
+            }
+
             else
             {
-               methodIL.Emit(OpCodes.Castclass, p.PropertyType);
+                methodIL.Emit(OpCodes.Castclass, p.PropertyType);
+                methodIL.Emit(OpCodes.Callvirt, p.GetSetMethod());
             }
             //call valuetype[mscorlib]System.Guid Jsonzai.Test.Model.JsonToGuid::Parse(string)
-            methodIL.Emit(OpCodes.Callvirt, p.GetSetMethod());//callvirt instance void Jsonzai.Test.Model.Person::set_Name(string)
+           // methodIL.Emit(OpCodes.Call, p.GetSetMethod());//callvirt instance void Jsonzai.Test.Model.Person::set_Name(string)
             methodIL.Emit(OpCodes.Ret);// ret
         }
         static void buildGetTypeProperty(TypeBuilder myTypeBuilder, Type klass, PropertyInfo p)

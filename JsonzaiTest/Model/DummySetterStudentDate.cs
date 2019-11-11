@@ -9,7 +9,7 @@ namespace Jsonzai.Test.Model
 {
 	public struct Date
     {
-        public int Year { get; set; }
+		public int Year { get; set; }
         public int Day { get; set; }
         public int Month { get; set; }
     }
@@ -22,11 +22,11 @@ namespace Jsonzai.Test.Model
 
     class DummySetterStudentDate : ISetter
     {
-        public Type Klass { get => typeof(Date); }
+        public Type Klass { get => typeof(int); }
 
         public void SetValue(object target, object value)
         {
-            ((Person)target).Birth = (Date)value;
+            ((Date)target).Year = (int)value;
         }
     }
      public class Person

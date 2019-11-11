@@ -87,7 +87,7 @@ namespace Jsonzai.Test
            
             Student[] Classroom = { s1, s2, s3 };
             string json = JsonConvert.SerializeObject(Classroom);
-            json = json.Replace("GithubId", "github_id");
+            //json = json.Replace("GithubId", "github_id");
             Student[] classroom = (Student[])JsonParsemit.Parse(json, typeof(Student));
             for (int i = 0; i < Classroom.Length; i++)
             {
@@ -196,5 +196,6 @@ namespace Jsonzai.Test
 
            
         }
+        
     }
 }
