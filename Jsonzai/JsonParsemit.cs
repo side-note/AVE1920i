@@ -103,8 +103,14 @@ namespace Jsonzai
                 methodIL.Emit(OpCodes.Castclass, p.PropertyType);
                 methodIL.Emit(OpCodes.Callvirt, p.GetSetMethod());
             }
+            methodIL.Emit(OpCodes.Ldarg_1); //IL_0013:  ldarg.1
+            methodIL.Emit(OpCodes.Stloc_0); //IL_0014: stloc.0
+            methodIL.Emit(OpCodes.Br_S); //IL_0015: br.s IL_0017
+            methodIL.Emit(OpCodes.Ldloc_0);//IL_0017: ldloc.0
+            methodIL.Emit(OpCodes.Ret); //IL_0018: ret
+
             //call valuetype[mscorlib]System.Guid Jsonzai.Test.Model.JsonToGuid::Parse(string)
-           // methodIL.Emit(OpCodes.Call, p.GetSetMethod());//callvirt instance void Jsonzai.Test.Model.Person::set_Name(string)
+            // methodIL.Emit(OpCodes.Call, p.GetSetMethod());//callvirt instance void Jsonzai.Test.Model.Person::set_Name(string)
             methodIL.Emit(OpCodes.Ret);// ret
         }
         static void buildGetTypeProperty(TypeBuilder myTypeBuilder, Type klass, PropertyInfo p)
