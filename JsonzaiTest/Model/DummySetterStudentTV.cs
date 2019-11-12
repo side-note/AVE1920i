@@ -10,16 +10,17 @@ namespace Jsonzai.Test.Model
     public interface ISetter
     {
         Type Klass { get; }
-        void SetValue(object target, object value);
+        object SetValue(object target, object value);
     }
 
     class DummySetterStudentTV : ISetter
     {
         public Type Klass { get => typeof(int); }
 
-        public void SetValue(object target, object value)
+        public object SetValue(object target, object value)
         {
             ((Student)target).Nr = (int)value;
+			return target;
         }
     }
     public class Student : Person
