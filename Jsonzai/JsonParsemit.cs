@@ -17,15 +17,12 @@ namespace Jsonzai
         static void Cache(Type klass)
         {
             ISetter2 setter;
+            JsonPropertyAttribute attr;
             properties.Add(klass, new Dictionary<string, ISetter2>());
             foreach (PropertyInfo prop in klass.GetProperties())
             {
-                //JsonConvertAttribute convert = (JsonConvertAttribute)prop.GetCustomAttribute(typeof(JsonConvertAttribute));
-                //if (convert != null)
-                //    setter = (ISetter2)Activator.CreateInstance(BuildSetter(convert.klass, prop));
-                //else
-                    setter = (ISetter2)Activator.CreateInstance(BuildSetter(klass, prop));
-                JsonPropertyAttribute attr = (JsonPropertyAttribute)prop.GetCustomAttribute(typeof(JsonPropertyAttribute));
+                setter = (ISetter2)Activator.CreateInstance(BuildSetter(klass, prop));
+                attr = (JsonPropertyAttribute)prop.GetCustomAttribute(typeof(JsonPropertyAttribute));
                 if (attr != null)
                     properties[klass].Add(attr.PropertyName, setter);
                 else
@@ -85,6 +82,7 @@ namespace Jsonzai
                 new Type[] { typeof(object), typeof(object) });
 
             // Add IL to SetValue body
+            JsonConvertAttribute convert = (JsonConvertAttribute)p.GetCustomAttribute(typeof(JsonConvertAttribute));
             ILGenerator methodIL = setValue.GetILGenerator();
             
             if (!klass.IsValueType)
@@ -92,14 +90,13 @@ namespace Jsonzai
                 methodIL.Emit(OpCodes.Ldarg_1); // ldarg.1
                 methodIL.Emit(OpCodes.Castclass, klass); // castclass  Student
                 methodIL.Emit(OpCodes.Ldarg_2); // ldarg.2
-                JsonConvertAttribute convert = (JsonConvertAttribute)p.GetCustomAttribute(typeof(JsonConvertAttribute));
                 if (convert != null)
                 {
                     methodIL.Emit(OpCodes.Castclass, typeof(string));
                     methodIL.Emit(OpCodes.Call, convert.klass.GetMethod("Parse"));
                 }
                 if (p.PropertyType.IsValueType)
-                    methodIL.Emit(OpCodes.Unbox_Any, p.PropertyType); // unbox.any  [mscorlib]System.Int32
+                    methodIL.Emit(OpCodes.Unbox_Any, p.PropertyType);
                 else
                     methodIL.Emit(OpCodes.Castclass, p.PropertyType);
                 methodIL.Emit(OpCodes.Callvirt, p.GetSetMethod());
@@ -107,13 +104,21 @@ namespace Jsonzai
             }
             else
             {
+                LocalBuilder var = methodIL.DeclareLocal(klass);
                 methodIL.Emit(OpCodes.Ldarg_1); // ldarg.1
-                LocalBuilder v0 = methodIL.DeclareLocal(klass);
                 methodIL.Emit(OpCodes.Unbox_Any, klass);
                 methodIL.Emit(OpCodes.Stloc_0);
-                methodIL.Emit(OpCodes.Ldloca_S, v0);
+                methodIL.Emit(OpCodes.Ldloca_S, var);
                 methodIL.Emit(OpCodes.Ldarg_2);
-                methodIL.Emit(OpCodes.Unbox_Any, p.PropertyType);
+                if (convert != null)
+                {
+                    methodIL.Emit(OpCodes.Castclass, typeof(string));
+                    methodIL.Emit(OpCodes.Call, convert.klass.GetMethod("Parse"));
+                }
+                if (p.PropertyType.IsValueType)
+                    methodIL.Emit(OpCodes.Unbox_Any, p.PropertyType);
+                else
+                    methodIL.Emit(OpCodes.Castclass, p.PropertyType);
                 methodIL.Emit(OpCodes.Call, p.GetSetMethod());
                 methodIL.Emit(OpCodes.Ldloc_0);
                 methodIL.Emit(OpCodes.Box, klass);
@@ -139,8 +144,7 @@ namespace Jsonzai
                 typeof(Type).GetMethod("GetTypeFromHandle", new Type[1] { typeof(RuntimeTypeHandle) }));//IL_0005:  call       class [mscorlib] System.Type[mscorlib] System.Type::GetTypeFromHandle(valuetype[mscorlib] System.RuntimeTypeHandle)
             getmethodIL.Emit(OpCodes.Ret); //IL_000a:  ret        
 
-            getType.SetGetMethod(getKlass);         
-
+            getType.SetGetMethod(getKlass);
         }
 
         private static object FillObject(JsonTokens tokens, object target)

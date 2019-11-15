@@ -52,11 +52,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Account.cs" />
+    <Compile Include="Model\DummySetterTVTR.cs" />
     <Compile Include="Model\Classroom.cs" />
     <Compile Include="Model\Date.cs" />
     <Compile Include="Model\JsonToDateTime.cs" />
     <Compile Include="Model\JsonToGuid.cs" />
     <Compile Include="Model\JsonToUri.cs" />
+    <Compile Include="Model\Number.cs" />
     <Compile Include="Model\Person.cs" />
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\Student.cs" />

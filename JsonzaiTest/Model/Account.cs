@@ -10,5 +10,7 @@ namespace Jsonzai.Test.Model
     {
         public Double Balance { get; set; }
         public Double[] Transactions { get; set; }
+
+        public Number Iban { get; set; }
     }
 }

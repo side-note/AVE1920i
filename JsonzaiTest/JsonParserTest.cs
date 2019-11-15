@@ -190,10 +190,25 @@ namespace Jsonzai.Test
             Assert.AreEqual(prj.Student.Nr, project.Student.Nr);
             Assert.AreEqual(prj.Student.Group, project.Student.Group);
             Assert.AreEqual(prj.Student.GithubId, project.Student.GithubId);
-            Assert.AreEqual(prj.DueDate, project.DueDate);
-
-           
+            Assert.AreEqual(prj.DueDate, project.DueDate);         
         }
         
+        [TestMethod]
+        public void TestNumber()
+        {
+            Account acc = new Account();
+            acc.Balance = 1063.64;
+            acc.Transactions = new Double[] { -10.0, -32.45, +635};
+            acc.Iban = 
+                new Number("PT50", "1234 4321 12345678901 72", new Guid("F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4"));
+            string json = JsonConvert.SerializeObject(acc);
+            Account account = (Account)JsonParsemit.Parse(json, typeof(Account));
+            Assert.AreEqual(acc.Balance, account.Balance);
+            for (int i = 0; i < acc.Transactions.Length; i++)
+                Assert.AreEqual(acc.Transactions[i], account.Transactions[i]);
+            Assert.AreEqual(acc.Iban.Prefix, account.Iban.Prefix);
+            Assert.AreEqual(acc.Iban.Digits, account.Iban.Digits);
+            Assert.AreEqual(acc.Iban.Id, account.Iban.Id);
+        }
     }
 }
