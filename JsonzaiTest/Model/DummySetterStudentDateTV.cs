@@ -13,7 +13,7 @@ namespace Jsonzai.Test.Model
         void SetValue(object target, object value);
     }
 
-    class DummySetterStudentNameTV : ISetter
+    class DummySetterStudentDateTV : ISetter
     {
         public Type Klass { get => typeof(Date); }
 

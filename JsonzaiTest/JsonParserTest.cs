@@ -87,7 +87,7 @@ namespace Jsonzai.Test
            
             Student[] Classroom = { s1, s2, s3 };
             string json = JsonConvert.SerializeObject(Classroom);
-            //json = json.Replace("GithubId", "github_id");
+            json = json.Replace("GithubId", "github_id");
             Student[] classroom = (Student[])JsonParsemit.Parse(json, typeof(Student));
             for (int i = 0; i < Classroom.Length; i++)
             {
@@ -140,9 +140,7 @@ namespace Jsonzai.Test
             Account account = (Account)JsonParsemit.Parse(json, typeof(Account));
             Assert.AreEqual(acc.Balance, account.Balance);
             for(int i = 0; i < acc.Transactions.Length; ++i)
-            {
-                Assert.AreEqual(acc.Transactions[i], account.Transactions[i]);
-            }            
+                Assert.AreEqual(acc.Transactions[i], account.Transactions[i]);                        
         }        
         [TestMethod]
         public void TestJsonProperty()

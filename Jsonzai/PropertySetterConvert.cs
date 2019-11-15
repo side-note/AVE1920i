@@ -9,7 +9,6 @@ namespace Jsonzai
 {
     class PropertySetterConvert : ISetter
     {
-        private MethodInfo method;
         private PropertyInfo p;
         public Type Klass { get; set; }
         
@@ -18,13 +17,12 @@ namespace Jsonzai
         {
             p = prop;
             if (klass.IsArray) klass = klass.GetElementType();
-            method = klass.GetMethod("Parse");
             Klass = klass;
         }
 
         public void SetValue(object target, object value)
         {
-            value = method.Invoke(null, new object[] { value });
+            value = Klass.GetMethod("Parse").Invoke(null, new object[] { value });
             p.SetValue(target, value);
         }
     }
