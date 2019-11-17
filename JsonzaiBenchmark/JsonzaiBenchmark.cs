@@ -2,6 +2,8 @@
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Toolchains.InProcess.Emit;
+using Jsonzai;
+using Jsonzai.Test.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,15 +26,21 @@ namespace JsonzaiBenchmark
     [RankColumn]
     [Config(typeof(JsonzaiBenchmarkConfig))]
 
-    class JsonzaiBenchmark
+    public class JsonzaiBenchmark
     {
         string src = "{Name: \"Ze Manel\", Nr: 6512, Group: 11, github_id: \"omaior\"}";
-        JsonParsemit
-        JsonParser
-        Student std = (Student)JsonParsemit.Parse(src, typeof(Student));
-        Assert.AreEqual("Ze Manel", std.Name);
-            Assert.AreEqual(6512, std.Nr);
-            Assert.AreEqual(11, std.Group);
-            Assert.AreEqual("omaior", std.GithubId);
+
+        [Benchmark]
+        public void BenchStudentReflect()
+        {
+            JsonParser.Parse(src, typeof(Student));
+        }
+
+        [Benchmark]
+        public void BenchStudentEmit()
+        {
+            JsonParsemit.Parse(src, typeof(Student));
+        }
+
     }
 }

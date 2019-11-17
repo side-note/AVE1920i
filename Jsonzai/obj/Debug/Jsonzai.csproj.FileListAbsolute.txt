@@ -45,7 +45,6 @@ C:\Users\carol\Documents\GitHub\AVE1920i\Jsonzai\bin\Debug\Jsonzai.dll
 C:\Users\carol\Documents\GitHub\AVE1920i\Jsonzai\bin\Debug\Jsonzai.pdb
 C:\Users\carol\Documents\GitHub\AVE1920i\Jsonzai\bin\Debug\Newtonsoft.Json.dll
 C:\Users\carol\Documents\GitHub\AVE1920i\Jsonzai\bin\Debug\Newtonsoft.Json.xml
-C:\Users\carol\Documents\GitHub\AVE1920i\Jsonzai\obj\Debug\Jsonzai.csprojAssemblyReference.cache
 C:\Users\carol\Documents\GitHub\AVE1920i\Jsonzai\obj\Debug\Jsonzai.csproj.CoreCompileInputs.cache
 C:\Users\carol\Documents\GitHub\AVE1920i\Jsonzai\obj\Debug\Jsonzai.csproj.CopyComplete
 C:\Users\carol\Documents\GitHub\AVE1920i\Jsonzai\obj\Debug\Jsonzai.dll
@@ -59,3 +58,4 @@ C:\Users\NRAFA\OneDrive\Documentos\GitHub\AVE1920i\Jsonzai\obj\Debug\Jsonzai.csp
 C:\Users\NRAFA\OneDrive\Documentos\GitHub\AVE1920i\Jsonzai\obj\Debug\Jsonzai.csproj.CopyComplete
 C:\Users\NRAFA\OneDrive\Documentos\GitHub\AVE1920i\Jsonzai\obj\Debug\Jsonzai.dll
 C:\Users\NRAFA\OneDrive\Documentos\GitHub\AVE1920i\Jsonzai\obj\Debug\Jsonzai.pdb
+C:\Users\carol\Documents\GitHub\AVE1920i\Jsonzai\obj\Debug\Jsonzai.csprojAssemblyReference.cache
