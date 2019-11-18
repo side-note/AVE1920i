@@ -137,7 +137,17 @@ namespace JsonzaiBenchmark
             return json;
         }
 
-
+        public string BenchStructArrayAgenda()
+        {
+            Agenda agenda = new Agenda();
+            agenda.appointmentsSize = 3;
+            agenda.appointments = new string[agenda.appointmentsSize];
+            agenda.appointments[0] = "Dentist";
+            agenda.appointments[1] = "Hairdresser";
+            agenda.appointments[2] = "English Class";
+            string json = JsonConvert.SerializeObject(agenda);
+            return json;
+        }
 
         [Benchmark]
         public void BenchStudentReflect()
@@ -185,13 +195,13 @@ namespace JsonzaiBenchmark
             JsonParsemit.Parse(BenchAccount(), typeof(Account));
         }
         [Benchmark]
-        public void BenchJsonPropertyReflect()
+        public void BenchPropertyReflect()
         {
             JsonParser.Parse(benchStudent, typeof(Student));
         }
 
         [Benchmark]
-        public void BenchJsonPropertyEmit()
+        public void BenchPropertyEmit()
         {
             JsonParsemit.Parse(benchStudent, typeof(Student));
         }
@@ -279,6 +289,16 @@ namespace JsonzaiBenchmark
         {
             JsonParsemit.Parse(BenchTestNumber(), typeof(Account));
         }
+        [Benchmark]
+        public void BenchStructArrayAgendaReflect()
+        {
+            JsonParser.Parse(BenchStructArrayAgenda(), typeof(Agenda));
+        }
 
+        [Benchmark]
+        public void BenchStructArrayAgendaEmit()
+        {
+            JsonParsemit.Parse(BenchStructArrayAgenda(), typeof(Agenda));
+        }
     }
 }
