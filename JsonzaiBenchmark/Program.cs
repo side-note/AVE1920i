@@ -12,7 +12,8 @@ namespace JsonzaiBenchmark
         public static void Main(string[] args)
         {
             BenchmarkRunner.Run<JsonzaiBenchmark>();
-            int i = 0;
+
+            while (Console.ReadKey() == null) ;
         }
     }
 }

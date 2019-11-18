@@ -29,9 +29,15 @@ namespace JsonzaiBenchmark
 
     public class JsonzaiBenchmark
     {
-        string src = "{Name: \"Ze Manel\", Nr: 6512, Group: 11, github_id: \"omaior\"}";
-      
-        
+        string benchStudent = "{Name: \"Ze Manel\", Nr: 6512, Group: 11, github_id: \"omaior\"}";
+        string benchSiblings = "{Name: \"Ze Manel\", Sibling: { Name: \"Maria Papoila\", Sibling: { Name: \"Kata Badala\"}}}";
+        string benchPersonWithBirth = "{Name: \"Ze Manel\", Birth: {Year: 1999, Month: 12, Day: 31}}";
+        string benchPersonArray = "[{Name: \"Ze Manel\"}, {Name: \"Candida Raimunda\"}, {Name: \"Kata Mandala\"}]";
+        string benchBadJsonObjectWithUnclosedBrackets = "{Name: \"Ze Manel\", Sibling: { Name: \"Maria Papoila\", Sibling: { Name: \"Kata Badala\"}";
+        string benchBadJsonObjectWithWrongCloseToken = "{Name: \"Ze Manel\", Sibling: { Name: \"Maria Papoila\"]]";
+
+
+
         public string BenchStudentArray()
         {
             Student s1 = new Student();
@@ -95,13 +101,13 @@ namespace JsonzaiBenchmark
         [Benchmark]
         public void BenchStudentReflect()
         {
-            JsonParser.Parse(src, typeof(Student));
+            JsonParser.Parse(benchStudent, typeof(Student));
         }
 
         [Benchmark]
         public void BenchStudentEmit()
         {
-            JsonParsemit.Parse(src, typeof(Student));
+            JsonParsemit.Parse(benchStudent, typeof(Student));
         }
 
         [Benchmark]
@@ -140,13 +146,74 @@ namespace JsonzaiBenchmark
         [Benchmark]
         public void BenchJsonPropertyReflect()
         {
-            JsonParser.Parse(src, typeof(Student));
+            JsonParser.Parse(benchStudent, typeof(Student));
         }
 
         [Benchmark]
         public void BenchJsonPropertyEmit()
         {
-            JsonParsemit.Parse(src, typeof(Student));
+            JsonParsemit.Parse(benchStudent, typeof(Student));
         }
+
+        [Benchmark]
+        public void BenchSinlingsReflect()
+        {
+            JsonParser.Parse(benchSiblings, typeof(Person));
+        }
+
+        [Benchmark]
+        public void BenchSinlingsEmit()
+        {
+            JsonParsemit.Parse(benchSiblings, typeof(Person));
+        }
+
+        [Benchmark]
+        public void BenchPersonWithBirthReflect()
+        {
+            JsonParser.Parse(benchPersonWithBirth, typeof(Person));
+        }
+
+        [Benchmark]
+        public void BenchPersonWithBirthEmit()
+        {
+            JsonParsemit.Parse(benchPersonWithBirth, typeof(Person));
+        }
+
+        [Benchmark]
+        public void BenchPersonArrayReflect()
+        {
+            JsonParser.Parse(benchPersonArray, typeof(Person));
+        }
+
+        [Benchmark]
+        public void BenchPersonArrayEmit()
+        {
+            JsonParsemit.Parse(benchPersonArray, typeof(Person));
+        }
+
+        [Benchmark]
+        public void BenchBadJsonObjectWithUnclosedBracketsReflect()
+        {
+            JsonParser.Parse(benchBadJsonObjectWithUnclosedBrackets, typeof(Person));
+        }
+
+        [Benchmark]
+        public void BenchBadJsonObjectWithUnclosedBracketsEmit()
+        {
+            JsonParsemit.Parse(benchBadJsonObjectWithUnclosedBrackets, typeof(Person));
+        }
+
+        [Benchmark]
+        public void BenchBadJsonObjectWithWrongCloseTokenReflect()
+        {
+            JsonParser.Parse(benchBadJsonObjectWithWrongCloseToken, typeof(Person));
+        }
+
+        [Benchmark]
+        public void BenchBadJsonObjectWithWrongCloseTokenEmit()
+        {
+            JsonParsemit.Parse(benchBadJsonObjectWithWrongCloseToken, typeof(Person));
+        }
+
     }
 }
