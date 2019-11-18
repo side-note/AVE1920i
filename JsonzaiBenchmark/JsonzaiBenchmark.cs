@@ -33,8 +33,6 @@ namespace JsonzaiBenchmark
         string benchSiblings = "{Name: \"Ze Manel\", Sibling: { Name: \"Maria Papoila\", Sibling: { Name: \"Kata Badala\"}}}";
         string benchPersonWithBirth = "{Name: \"Ze Manel\", Birth: {Year: 1999, Month: 12, Day: 31}}";
         string benchPersonArray = "[{Name: \"Ze Manel\"}, {Name: \"Candida Raimunda\"}, {Name: \"Kata Mandala\"}]";
-        string benchBadJsonObjectWithUnclosedBrackets = "{Name: \"Ze Manel\", Sibling: { Name: \"Maria Papoila\", Sibling: { Name: \"Kata Badala\"}";
-        string benchBadJsonObjectWithWrongCloseToken = "{Name: \"Ze Manel\", Sibling: { Name: \"Maria Papoila\"]]";
 
 
 
@@ -44,25 +42,25 @@ namespace JsonzaiBenchmark
             s1.Name = "Maria Castro";
             s1.Nr = 44531;
             s1.Group = 12;
-            s1.GithubId = "mcastro";           
+            s1.GithubId = "mcastro";
             Student s2 = new Student();
-             s2.Name = "Manel Castro";
+            s2.Name = "Manel Castro";
             s2.Nr = 44532;
             s2.Group = 12;
-            s2.GithubId = "mncastro";            
+            s2.GithubId = "mncastro";
             Student s3 = new Student();
-             s3.Name = "Manel Pedro";
+            s3.Name = "Manel Pedro";
             s3.Nr = 44533;
             s3.Group = 12;
             s3.GithubId = "mpedro";
-           
+
             Student[] Classroom = { s1, s2, s3 };
-           
+
             string json = JsonConvert.SerializeObject(Classroom);
             json = json.Replace("GithubId", "github_id");
             return json;
         }
-        
+
         public string BenchClassroom()
         {
             Classroom cls = new Classroom();
@@ -96,7 +94,49 @@ namespace JsonzaiBenchmark
             string json = JsonConvert.SerializeObject(acc);
             return json;
         }
-            
+
+        public string BenchJsonUri()
+        {
+            Website website = new Website();
+            website.Uri = new Uri("https://www.google.com/");
+            string json = JsonConvert.SerializeObject(website);
+            json = json.Replace("GithubId", "github_id");
+            return json;
+        }
+
+        public string BenchJsonGuid()
+        {
+            Classroom cls = new Classroom();
+            cls.Id = new Guid("F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4");
+            string json = JsonConvert.SerializeObject(cls);
+            json = json.Replace("GithubId", "github_id");
+            return json;
+        }
+
+        public string BenchJsonDatetime()
+        {
+            Project prj = new Project();
+            prj.Student = new Student();
+            prj.Student.Name = "Maria Castro";
+            prj.Student.Nr = 44531;
+            prj.Student.Group = 12;
+            prj.Student.GithubId = "mcastro";
+            prj.DueDate = new DateTime(2019, 11, 14, 23, 59, 00);
+            string json = JsonConvert.SerializeObject(prj);
+            return json;
+        }
+
+        public string BenchTestNumber()
+        {
+            Account acc = new Account();
+            acc.Balance = 1063.64;
+            acc.Transactions = new Double[] { -10.0, -32.45, +635 };
+            acc.Iban = new Number("PT50", "1234 4321 12345678901 72", new Guid("F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4"));
+            string json = JsonConvert.SerializeObject(acc);
+            return json;
+        }
+
+
 
         [Benchmark]
         public void BenchStudentReflect()
@@ -156,13 +196,13 @@ namespace JsonzaiBenchmark
         }
 
         [Benchmark]
-        public void BenchSinlingsReflect()
+        public void BenchSiblingsReflect()
         {
             JsonParser.Parse(benchSiblings, typeof(Person));
         }
 
         [Benchmark]
-        public void BenchSinlingsEmit()
+        public void BenchSiblingsEmit()
         {
             JsonParsemit.Parse(benchSiblings, typeof(Person));
         }
@@ -192,27 +232,51 @@ namespace JsonzaiBenchmark
         }
 
         [Benchmark]
-        public void BenchBadJsonObjectWithUnclosedBracketsReflect()
+        public void BenchJsonUriReflect()
         {
-            JsonParser.Parse(benchBadJsonObjectWithUnclosedBrackets, typeof(Person));
+            JsonParser.Parse(BenchJsonUri(), typeof(Website));
         }
 
         [Benchmark]
-        public void BenchBadJsonObjectWithUnclosedBracketsEmit()
+        public void BenchJsonUriEmit()
         {
-            JsonParsemit.Parse(benchBadJsonObjectWithUnclosedBrackets, typeof(Person));
+            JsonParsemit.Parse(BenchJsonUri(), typeof(Website));
         }
 
         [Benchmark]
-        public void BenchBadJsonObjectWithWrongCloseTokenReflect()
+        public void BenchJsonGuidReflect()
         {
-            JsonParser.Parse(benchBadJsonObjectWithWrongCloseToken, typeof(Person));
+            JsonParser.Parse(BenchJsonGuid(), typeof(Classroom));
         }
 
         [Benchmark]
-        public void BenchBadJsonObjectWithWrongCloseTokenEmit()
+        public void BenchJsonGuidEmit()
         {
-            JsonParsemit.Parse(benchBadJsonObjectWithWrongCloseToken, typeof(Person));
+            JsonParsemit.Parse(BenchJsonGuid(), typeof(Classroom));
+        }
+
+        [Benchmark]
+        public void BenchJsonDatetimeReflect()
+        {
+            JsonParsemit.Parse(BenchJsonDatetime(), typeof(Project));
+        }
+
+        [Benchmark]
+        public void BenchJsonDatetimeEmit()
+        {
+            JsonParsemit.Parse(BenchJsonDatetime(), typeof(Project));
+        }
+
+        [Benchmark]
+        public void BenchTestNumberReflect()
+        {
+            JsonParsemit.Parse(BenchTestNumber(), typeof(Account));
+        }
+
+        [Benchmark]
+        public void BenchTestNumberEmit()
+        {
+            JsonParsemit.Parse(BenchTestNumber(), typeof(Account));
         }
 
     }
