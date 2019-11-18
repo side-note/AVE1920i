@@ -123,6 +123,7 @@ namespace JsonzaiBenchmark
             prj.Student.GithubId = "mcastro";
             prj.DueDate = new DateTime(2019, 11, 14, 23, 59, 00);
             string json = JsonConvert.SerializeObject(prj);
+            json = json.Replace("Student", "student_isel").Replace("GithubId", "github_id");
             return json;
         }
 
@@ -258,7 +259,7 @@ namespace JsonzaiBenchmark
         [Benchmark]
         public void BenchJsonDatetimeReflect()
         {
-            JsonParsemit.Parse(BenchJsonDatetime(), typeof(Project));
+            JsonParser.Parse(BenchJsonDatetime(), typeof(Project));
         }
 
         [Benchmark]
@@ -270,7 +271,7 @@ namespace JsonzaiBenchmark
         [Benchmark]
         public void BenchTestNumberReflect()
         {
-            JsonParsemit.Parse(BenchTestNumber(), typeof(Account));
+            JsonParser.Parse(BenchTestNumber(), typeof(Account));
         }
 
         [Benchmark]
