@@ -149,6 +149,19 @@ namespace JsonzaiBenchmark
             return json;
         }
 
+        public string BenchStructArrayTypeValueSpeedTest()
+        {
+            SpeedTest speedtest = new SpeedTest();
+            Student st1 = new Student();
+            st1.Name = "Maria Castro";
+            st1.Nr = 44567;
+            st1.Group = 12;
+            speedtest.Student = st1;
+            Double[] speedvalue1 = { 12.4, 10.5, 9.7 };
+            speedtest.Speedval = speedvalue1;
+            string json = JsonConvert.SerializeObject(speedtest).Replace("GithubId", "github_id");
+            return json;
+        }
         [Benchmark]
         public void BenchStudentReflect()
         {
@@ -299,6 +312,17 @@ namespace JsonzaiBenchmark
         public void BenchStructArrayAgendaEmit()
         {
             JsonParsemit.Parse(BenchStructArrayAgenda(), typeof(Agenda));
+        }
+        [Benchmark]
+        public void BenchStructArrayTypeValueSpeedTestReflect()
+        {
+            JsonParser.Parse(BenchStructArrayTypeValueSpeedTest(), typeof(SpeedTest));
+        }
+
+        [Benchmark]
+        public void BenchStructArrayTypeValueSpeedTestEmit()
+        {
+            JsonParsemit.Parse(BenchStructArrayTypeValueSpeedTest(), typeof(SpeedTest));
         }
     }
 }
