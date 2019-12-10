@@ -2,8 +2,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Jsonzai.Test.Model;
 using Newtonsoft.Json;
+using System.Text;
 using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
+using System.Collections;
 
 namespace Jsonzai.Test
 {
@@ -245,6 +247,21 @@ namespace Jsonzai.Test
             for (int i = 0; i < speedtest.Speedval.Length; i++)
                 Assert.AreEqual(speedtest.Speedval[i], st.Speedval[i]);
 
+        }
+        [TestMethod]
+        public void LazySequenceTest()
+        {
+            foreach (Object o in JsonParser.SequenceFrom("test.txt", typeof(Person)))
+            {
+
+            }
+        }
+
+        [TestMethod]
+        public void streamTest()
+        {
+            foreach (Object o in JsonParser.SequenceFrom("test.txt", typeof(Account))) 
+                ;
         }
     }
 }

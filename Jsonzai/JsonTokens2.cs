@@ -2,9 +2,10 @@
 using System.Collections;
 using System.IO;
 
+
 namespace Jsonzai
 {
-    public class JsonTokens: Tokens
+    public class JsonTokens2: Tokens
     {
 
         public const char OBJECT_OPEN = '{';
@@ -15,38 +16,28 @@ namespace Jsonzai
         public const char COMMA = ',';
         public const char COLON = ':';
 
-        private readonly char[] src;
-        private int index;
+        StreamReader stream;
 
-        public JsonTokens(string src)
+        public JsonTokens2(string filename)
         {
-            this.src = src.ToCharArray();
-            this.index = 0;
+            stream = new StreamReader(filename);
         }
 
-
-        public char Current => src[index];
-
-        public bool MoveNext() {
-            index++;
-            return index == src.Length ? false : true;
-        }
+        public char Current => (char)stream.Peek();
 
         public void Trim() {
-            while (src[index] == ' ') MoveNext();
+            while (Current == ' ') stream.Read();
         }
 
         public char Pop()
         {
-            char token = src[index];
-            index++;
-            return token;
+            return (char)stream.Read();
         }
         public void Pop(char expected)
         {
             if (Current != expected)
                 throw new InvalidOperationException("Expected " + expected + " but found " + Current);
-            index++;
+            stream.Read();
         }
 
         /// <summary>
@@ -57,11 +48,11 @@ namespace Jsonzai
         {
             Trim();
             string acc = "";
-            for ( ; Current != delimiter; MoveNext())
+            for ( ; Current != delimiter; stream.Read())
             {
                 acc += Current;
             }
-            MoveNext(); // Discard delimiter
+            stream.Read(); // Discard delimiter
             Trim();
             return acc;
         }
@@ -69,7 +60,7 @@ namespace Jsonzai
         {
             Trim();
             string acc = "";
-            for( ;  !IsEnd(Current); MoveNext())
+            for( ;  !IsEnd(Current); stream.Read())
             {
                 acc += Current;
             }
