@@ -125,5 +125,14 @@ namespace Jsonzai
 			tokens.Pop(JsonTokens.ARRAY_END); // Discard square bracket ] ARRAY_END
 			return list.ToArray(klass);
 		}
+
+        public static IEnumerable<T> AddConfiguration <T, W>(string propName, Func<String, W> convert)
+        {
+            PropertyInfo p = typeof(T).GetProperty(propName);
+            ISetter setter = new SetterConvertDelegate<W>(p, convert);
+            properties.Add(typeof(W), new Dictionary<string, ISetter>());
+            properties[typeof(W)].Add(propName, setter);
+            return null;
+        }
 	}
 }

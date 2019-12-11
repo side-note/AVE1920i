@@ -258,7 +258,9 @@ namespace Jsonzai.Test
 
             String content = reader.ReadToEnd();
             String oldContent = content;
-            IEnumerator<Person> enumerator = JsonParser.SequenceFrom<Person>("test.txt").GetEnumerator();
+            IEnumerator<Person> enumerator = JsonParser.SequenceFrom<Person>("test.txt")
+                                                        .AddConfiguration<Classroom, Guid>("Id", JsonToGuid.Parse)
+                                                        .GetEnumerator();
             enumerator.MoveNext();
             Assert.AreEqual("Ze Manel", enumerator.Current.Name);
             content = content.Replace("Candida Raimunda", "Albertina Asdrubal");
