@@ -16,11 +16,11 @@ namespace Jsonzai
         public const char COMMA = ',';
         public const char COLON = ':';
 
-        StreamReader stream;
+        public StreamReader stream;
 
         public JsonTokens2(string filename)
         {
-            stream = new StreamReader(filename);
+            stream = new StreamReader(new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 2));
         }
 
         public char Current => (char)stream.Peek();

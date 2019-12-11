@@ -29,11 +29,6 @@ namespace Jsonzai
             }
         }
 
-        	//public static object Parse(String source, Type klass)
-         //   {
-         //       return Parse(new JsonTokens(source), klass);
-         //   }
-
         public static T Parse <T>(String source)
         {
             if(typeof(T).IsArray)
@@ -98,7 +93,7 @@ namespace Jsonzai
         }
         public static IEnumerable<T> SequenceFrom<T>(string filename)
         {
-            Tokens tokens = new JsonTokens2(filename);
+            JsonTokens2 tokens = new JsonTokens2(filename);
             tokens.Pop(JsonTokens2.ARRAY_OPEN);
             while (tokens.Current != JsonTokens2.ARRAY_END)
             {
@@ -109,6 +104,7 @@ namespace Jsonzai
                     tokens.Trim();
                 }
             }
+            tokens.stream.Close();
         }
 
 

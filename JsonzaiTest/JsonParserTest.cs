@@ -6,6 +6,7 @@ using System.Text;
 using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
 using System.Collections;
+using System.IO;
 
 namespace Jsonzai.Test
 {
@@ -251,10 +252,24 @@ namespace Jsonzai.Test
         [TestMethod]
         public void LazySequenceTest()
         {
-            foreach (Object o in JsonParser.SequenceFrom<Person>("test.txt"))
-            {
 
-            }
+            StreamWriter writer = new StreamWriter(new FileStream("test.txt", FileMode.Open, FileAccess.Write, FileShare.ReadWrite));
+            StreamReader reader = new StreamReader(new FileStream("test.txt", FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
+
+            String content = reader.ReadToEnd();
+            String oldContent = content;
+            IEnumerator<Person> enumerator = JsonParser.SequenceFrom<Person>("test.txt").GetEnumerator();
+            enumerator.MoveNext();
+            Assert.AreEqual("Ze Manel", enumerator.Current.Name);
+            content = content.Replace("Candida Raimunda", "Albertina Asdrubal");
+            writer.Write(content);
+            writer.Close();
+            enumerator.MoveNext();
+            Assert.AreEqual("Albertina Asdrubal", enumerator.Current.Name);
+            writer = new StreamWriter(new FileStream("test.txt", FileMode.Open, FileAccess.Write, FileShare.ReadWrite));
+            writer.Write(oldContent);
+            writer.Close();
+            reader.Close();
         }
 
     }
