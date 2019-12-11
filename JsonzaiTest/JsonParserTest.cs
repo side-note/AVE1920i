@@ -17,7 +17,7 @@ namespace Jsonzai.Test
         public void TestParsingStudent()
         {
             string src = "{Name: \"Ze Manel\", Nr: 6512, Group: 11, github_id: \"omaior\"}";
-            Student std = (Student)JsonParsemit.Parse(src, typeof(Student));
+            Student std = JsonParsemit.Parse<Student>(src);
             Assert.AreEqual("Ze Manel", std.Name);
             Assert.AreEqual(6512, std.Nr);
             Assert.AreEqual(11, std.Group);
@@ -27,7 +27,7 @@ namespace Jsonzai.Test
         public void TestSiblings()
         {
             string src = "{Name: \"Ze Manel\", Sibling: { Name: \"Maria Papoila\", Sibling: { Name: \"Kata Badala\"}}}";
-            Person p = (Person)JsonParsemit.Parse(src, typeof(Person));
+            Person p = JsonParsemit.Parse<Person>(src);
             Assert.AreEqual("Ze Manel", p.Name);
             Assert.AreEqual("Maria Papoila", p.Sibling.Name);
             Assert.AreEqual("Kata Badala", p.Sibling.Sibling.Name);
@@ -37,7 +37,7 @@ namespace Jsonzai.Test
         public void TestParsingPersonWithBirth()
         {
             string src = "{Name: \"Ze Manel\", Birth: {Year: 1999, Month: 12, Day: 31}}";
-            Person p = (Person)JsonParsemit.Parse(src, typeof(Person));
+            Person p = JsonParsemit.Parse<Person>(src);
             Assert.AreEqual("Ze Manel", p.Name);
             Assert.AreEqual(1999, p.Birth.Year);
             Assert.AreEqual(12, p.Birth.Month);
@@ -48,7 +48,7 @@ namespace Jsonzai.Test
         public void TestParsingPersonArray()
         {
             string src = "[{Name: \"Ze Manel\"}, {Name: \"Candida Raimunda\"}, {Name: \"Kata Mandala\"}]";
-            Person[] ps = (Person[])JsonParsemit.Parse(src, typeof(Person));
+            Person[] ps = JsonParsemit.Parse<Person[]>(src);
             Assert.AreEqual(3, ps.Length);
             Assert.AreEqual("Ze Manel", ps[0].Name);
             Assert.AreEqual("Candida Raimunda", ps[1].Name);
@@ -59,14 +59,14 @@ namespace Jsonzai.Test
         public void TestBadJsonObjectWithUnclosedBrackets()
         {
             string src = "{Name: \"Ze Manel\", Sibling: { Name: \"Maria Papoila\", Sibling: { Name: \"Kata Badala\"}";
-            Person p = (Person)JsonParsemit.Parse(src, typeof(Person));
+            Person p = JsonParsemit.Parse<Person>(src);
         }
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestBadJsonObjectWithWrongCloseToken()
         {
             string src = "{Name: \"Ze Manel\", Sibling: { Name: \"Maria Papoila\"]]";
-            Person p = (Person)JsonParsemit.Parse(src, typeof(Person));
+            Person p = JsonParsemit.Parse<Person>(src);
         }
         [TestMethod]
         public void TestParsingStudentArray()
@@ -90,7 +90,7 @@ namespace Jsonzai.Test
             Student[] Classroom = { s1, s2, s3 };
             string json = JsonConvert.SerializeObject(Classroom);
             json = json.Replace("GithubId", "github_id");
-            Student[] classroom = (Student[])JsonParsemit.Parse(json, typeof(Student));
+            Student[] classroom = JsonParsemit.Parse<Student[]>(json);
             for (int i = 0; i < Classroom.Length; i++)
             {
                 Assert.AreEqual(Classroom[i].Name, classroom[i].Name);
@@ -122,7 +122,7 @@ namespace Jsonzai.Test
             cls.Student = new Student[] { s1, s2, s3 };
             string json = JsonConvert.SerializeObject(cls);
             json = json.Replace("GithubId", "github_id");
-            Classroom classroom = (Classroom)JsonParsemit.Parse(json, typeof(Classroom));
+            Classroom classroom = JsonParsemit.Parse<Classroom>(json);
             Assert.AreEqual(cls.Class, classroom.Class);
             for (int i = 0; i < cls.Student.Length; ++i)
             {
@@ -139,7 +139,7 @@ namespace Jsonzai.Test
             acc.Balance = 234.32;
             acc.Transactions = new Double[] { -100.00, 32.00, -5.00 };
             string json = JsonConvert.SerializeObject(acc);
-            Account account = (Account)JsonParsemit.Parse(json, typeof(Account));
+            Account account = JsonParsemit.Parse<Account>(json);
             Assert.AreEqual(acc.Balance, account.Balance);
             for (int i = 0; i < acc.Transactions.Length; ++i)
                 Assert.AreEqual(acc.Transactions[i], account.Transactions[i]);
@@ -148,7 +148,7 @@ namespace Jsonzai.Test
         public void TestJsonProperty()
         {
             string src = "{Name: \"Ze Manel\", Nr: 6512, Group: 11, github_id: \"omaior\"}";
-            Student std = (Student)JsonParsemit.Parse(src, typeof(Student));
+            Student std = JsonParsemit.Parse<Student>(src);
             Assert.AreEqual("Ze Manel", std.Name);
             Assert.AreEqual(6512, std.Nr);
             Assert.AreEqual(11, std.Group);
@@ -161,7 +161,7 @@ namespace Jsonzai.Test
             website.Uri = new Uri("https://www.google.com/");
             string json = JsonConvert.SerializeObject(website);
             json = json.Replace("GithubId", "github_id");
-            Website web = (Website)JsonParsemit.Parse(json, typeof(Website));
+            Website web = JsonParsemit.Parse<Website>(json);
             Assert.AreEqual(website.Uri, web.Uri);
 
         }
@@ -172,7 +172,7 @@ namespace Jsonzai.Test
             cls.Id = new Guid("F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4");
             string json = JsonConvert.SerializeObject(cls);
             json = json.Replace("GithubId", "github_id");
-            Classroom classroom = (Classroom)JsonParsemit.Parse(json, typeof(Classroom));
+            Classroom classroom = JsonParsemit.Parse<Classroom>(json);
             Assert.AreEqual(cls.Id, classroom.Id);
         }
         [TestMethod]
@@ -187,7 +187,7 @@ namespace Jsonzai.Test
             prj.DueDate = new DateTime(2019, 11, 14, 23, 59, 00);
             string json = JsonConvert.SerializeObject(prj);
             json = json.Replace("Student", "student_isel").Replace("GithubId", "github_id");
-            Project project = (Project)JsonParsemit.Parse(json, typeof(Project));
+            Project project = JsonParsemit.Parse<Project>(json);
             Assert.AreEqual(prj.Student.Name, project.Student.Name);
             Assert.AreEqual(prj.Student.Nr, project.Student.Nr);
             Assert.AreEqual(prj.Student.Group, project.Student.Group);
@@ -204,7 +204,7 @@ namespace Jsonzai.Test
             acc.Iban =
                 new Number("PT50", "1234 4321 12345678901 72", new Guid("F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4"));
             string json = JsonConvert.SerializeObject(acc);
-            Account account = (Account)JsonParsemit.Parse(json, typeof(Account));
+            Account account = JsonParsemit.Parse<Account>(json);
             Assert.AreEqual(acc.Balance, account.Balance);
             for (int i = 0; i < acc.Transactions.Length; i++)
                 Assert.AreEqual(acc.Transactions[i], account.Transactions[i]);
@@ -222,7 +222,7 @@ namespace Jsonzai.Test
             agenda.appointments[1] = "Hairdresser";
             agenda.appointments[2] = "English Class";
             string json = JsonConvert.SerializeObject(agenda);
-            Agenda ag = (Agenda)JsonParsemit.Parse(json, typeof(Agenda));
+            Agenda ag = JsonParsemit.Parse<Agenda>(json);
             for (int i = 0; i < agenda.appointmentsSize; i++)
                 Assert.AreEqual(agenda.appointments[i], ag.appointments[i]);
             Assert.AreEqual(agenda.appointmentsSize, ag.appointmentsSize);
@@ -239,8 +239,8 @@ namespace Jsonzai.Test
             speedtest.Student = st1;
             Double[] speedvalue1 = { 12.4, 10.5, 9.7 };
             speedtest.Speedval = speedvalue1;
-            string json = JsonConvert.SerializeObject(speedtest).Replace("GithubId","github_id");
-            SpeedTest st = (SpeedTest)JsonParser.Parse(json, typeof(SpeedTest));
+            string json = JsonConvert.SerializeObject(speedtest).Replace("GithubId", "github_id");
+            SpeedTest st = JsonParsemit.Parse<SpeedTest>(json);
             Assert.AreEqual(speedtest.Student.Name, st.Student.Name);
             Assert.AreEqual(speedtest.Student.Nr, st.Student.Nr);
             Assert.AreEqual(speedtest.Student.Group, st.Student.Group);
@@ -251,17 +251,11 @@ namespace Jsonzai.Test
         [TestMethod]
         public void LazySequenceTest()
         {
-            foreach (Object o in JsonParser.SequenceFrom("test.txt", typeof(Person)))
+            foreach (Object o in JsonParser.SequenceFrom<Person>("test.txt"))
             {
 
             }
         }
 
-        [TestMethod]
-        public void streamTest()
-        {
-            foreach (Object o in JsonParser.SequenceFrom("test.txt", typeof(Account))) 
-                ;
-        }
     }
 }

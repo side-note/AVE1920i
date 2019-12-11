@@ -29,15 +29,17 @@ namespace Jsonzai
             }
         }
 
-        	public static object Parse(String source, Type klass)
-            {
-                return Parse(new JsonTokens(source), klass);
-            }
+        	//public static object Parse(String source, Type klass)
+         //   {
+         //       return Parse(new JsonTokens(source), klass);
+         //   }
 
-        //public static T Parse <T>(String source)
-        //{
-        //    return Parse(new JsonTokens(source), T);
-        //}
+        public static T Parse <T>(String source)
+        {
+            if(typeof(T).IsArray)
+                return (T)Parse(new JsonTokens(source), typeof(T).GetElementType());
+            return (T) Parse(new JsonTokens(source), typeof(T));
+        }
 
             static object Parse(Tokens tokens, Type klass) {
 			switch (tokens.Current) {
@@ -94,13 +96,13 @@ namespace Jsonzai
             tokens.Pop(JsonTokens.OBJECT_END); // Discard bracket } OBJECT_END
             return target;
         }
-        public static IEnumerable SequenceFrom(string filename, Type klass)
+        public static IEnumerable<T> SequenceFrom<T>(string filename)
         {
             Tokens tokens = new JsonTokens2(filename);
             tokens.Pop(JsonTokens2.ARRAY_OPEN);
             while (tokens.Current != JsonTokens2.ARRAY_END)
             {
-                yield return Parse(tokens, klass);
+                yield return (T)Parse(tokens, typeof(T));
                 if (tokens.Current != JsonTokens2.ARRAY_END)
                 {
                     tokens.Pop(JsonTokens2.COMMA);
