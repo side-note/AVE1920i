@@ -244,6 +244,23 @@ namespace Jsonzai
             tokens.Pop(JsonTokens.ARRAY_END); // Discard square bracket ] ARRAY_END
             return list.ToArray(klass);
         }
-        
+        public static void AddConfiguration<T, W>(string propName, Func<String, W> convert)
+        {
+            ISetter2 setter;
+            properties.Add(typeof(T), new Dictionary<string, ISetter2>());
+            foreach (PropertyInfo prop in typeof(T).GetProperties())
+            {
+                PropertyInfo p = typeof(T).GetProperty(propName);
+                if (p == prop)
+                    setter = new SetterConvertDelegate<W>(p, convert);
+                else
+                    setter = new PropertySetter(prop);
+                JsonPropertyAttribute attr = (JsonPropertyAttribute)prop.GetCustomAttribute(typeof(JsonPropertyAttribute));
+                if (attr != null)
+                    properties[typeof(T)].Add(attr.PropertyName, setter);
+                else
+                    properties[typeof(T)].Add(prop.Name, setter);
+            }
+        }
     }
 }
