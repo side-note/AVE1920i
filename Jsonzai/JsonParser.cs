@@ -126,13 +126,12 @@ namespace Jsonzai
 			return list.ToArray(klass);
 		}
 
-        public static IEnumerable<T> AddConfiguration <T, W>(string propName, Func<String, W> convert)
+        public static void AddConfiguration <T, W>(string propName, Func<String, W> convert)
         {
             PropertyInfo p = typeof(T).GetProperty(propName);
             ISetter setter = new SetterConvertDelegate<W>(p, convert);
             properties.Add(typeof(W), new Dictionary<string, ISetter>());
             properties[typeof(W)].Add(propName, setter);
-            return null;
         }
 	}
 }

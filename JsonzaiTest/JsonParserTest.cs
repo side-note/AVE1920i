@@ -18,7 +18,7 @@ namespace Jsonzai.Test
         public void TestParsingStudent()
         {
             string src = "{Name: \"Ze Manel\", Nr: 6512, Group: 11, github_id: \"omaior\"}";
-            Student std = JsonParsemit.Parse<Student>(src);
+            Student std = JsonParsemit.Parse<Student>(src);            
             Assert.AreEqual("Ze Manel", std.Name);
             Assert.AreEqual(6512, std.Nr);
             Assert.AreEqual(11, std.Group);
@@ -173,7 +173,8 @@ namespace Jsonzai.Test
             cls.Id = new Guid("F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4");
             string json = JsonConvert.SerializeObject(cls);
             json = json.Replace("GithubId", "github_id");
-            Classroom classroom = JsonParsemit.Parse<Classroom>(json);
+            JsonParser.AddConfiguration<Classroom, Guid>("Id", JsonToGuid.Parse2);
+            Classroom classroom = JsonParser.Parse<Classroom>(json);
             Assert.AreEqual(cls.Id, classroom.Id);
         }
         [TestMethod]
@@ -258,9 +259,7 @@ namespace Jsonzai.Test
 
             String content = reader.ReadToEnd();
             String oldContent = content;
-            IEnumerator<Person> enumerator = JsonParser.SequenceFrom<Person>("test.txt")
-                                                        .AddConfiguration<Classroom, Guid>("Id", JsonToGuid.Parse)
-                                                        .GetEnumerator();
+            IEnumerator<Person> enumerator = JsonParser.SequenceFrom<Person>("test.txt").GetEnumerator();                                                                   
             enumerator.MoveNext();
             Assert.AreEqual("Ze Manel", enumerator.Current.Name);
             content = content.Replace("Candida Raimunda", "Albertina Asdrubal");
