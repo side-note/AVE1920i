@@ -128,10 +128,21 @@ namespace Jsonzai
 
         public static void AddConfiguration <T, W>(string propName, Func<String, W> convert)
         {
-            PropertyInfo p = typeof(T).GetProperty(propName);
-            ISetter setter = new SetterConvertDelegate<W>(p, convert);
-            properties.Add(typeof(W), new Dictionary<string, ISetter>());
-            properties[typeof(W)].Add(propName, setter);
+            ISetter setter;
+            properties.Add(typeof(T), new Dictionary<string, ISetter>());
+            foreach (PropertyInfo prop in typeof(T).GetProperties())
+            {
+                PropertyInfo p = typeof(T).GetProperty(propName);
+                if(p == prop)
+                    setter = new SetterConvertDelegate<W>(p, convert);
+                else
+                    setter = new PropertySetter(prop);
+                JsonPropertyAttribute attr = (JsonPropertyAttribute)prop.GetCustomAttribute(typeof(JsonPropertyAttribute));
+                if (attr != null)
+                    properties[typeof(T)].Add(attr.PropertyName, setter);
+                else
+                    properties[typeof(T)].Add(prop.Name, setter);
+            }
         }
 	}
 }

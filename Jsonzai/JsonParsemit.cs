@@ -244,5 +244,6 @@ namespace Jsonzai
             tokens.Pop(JsonTokens.ARRAY_END); // Discard square bracket ] ARRAY_END
             return list.ToArray(klass);
         }
+        
     }
 }

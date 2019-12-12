@@ -123,7 +123,7 @@ namespace Jsonzai.Test
             cls.Student = new Student[] { s1, s2, s3 };
             string json = JsonConvert.SerializeObject(cls);
             json = json.Replace("GithubId", "github_id");
-            Classroom classroom = JsonParsemit.Parse<Classroom>(json);
+            Classroom classroom = JsonParser.Parse<Classroom>(json);
             Assert.AreEqual(cls.Class, classroom.Class);
             for (int i = 0; i < cls.Student.Length; ++i)
             {
@@ -174,7 +174,7 @@ namespace Jsonzai.Test
             string json = JsonConvert.SerializeObject(cls);
             json = json.Replace("GithubId", "github_id");
             JsonParser.AddConfiguration<Classroom, Guid>("Id", JsonToGuid.Parse2);
-            Classroom classroom = JsonParser.Parse<Classroom>(json);
+            Classroom classroom = JsonParser.Parse<Classroom>(json);            
             Assert.AreEqual(cls.Id, classroom.Id);
         }
         [TestMethod]
